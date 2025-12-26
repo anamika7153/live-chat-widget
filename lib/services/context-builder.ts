@@ -1,7 +1,7 @@
-import { ChatMessage, Message } from '../types';
-import { getFAQContext } from '../knowledge/faq';
-import { getDomainContext } from '../knowledge/domain-context';
-import { config } from '../config';
+import { ChatMessage, Message } from '../types.js';
+import { getFAQContext } from '../knowledge/faq.js';
+import { getDomainContext } from '../knowledge/domain-context.js';
+import { config } from '../config.js';
 
 export function buildSystemPrompt(): string {
   const domainContext = getDomainContext();

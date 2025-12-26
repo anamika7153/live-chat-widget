@@ -1,17 +1,17 @@
 import { v4 as uuidv4 } from 'uuid';
-import { ChatRequest, ChatResponse } from '../types';
-import { config } from '../config';
-import { ValidationError } from '../utils/errors';
+import { ChatRequest, ChatResponse } from '../types.js';
+import { config } from '../config.js';
+import { ValidationError } from '../utils/errors.js';
 import {
   findOrCreateConversation,
   updateConversationTimestamp,
-} from '../repositories/conversation-repository';
+} from '../repositories/conversation-repository.js';
 import {
   findMessagesByConversationId,
   createMessage,
-} from '../repositories/message-repository';
-import { buildContext } from './context-builder';
-import { generateCompletion } from './openai-provider';
+} from '../repositories/message-repository.js';
+import { buildContext } from './context-builder.js';
+import { generateCompletion } from './openai-provider.js';
 
 function generateSessionId(): string {
   return `sess_${uuidv4()}`;

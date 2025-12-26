@@ -1,6 +1,6 @@
-import { supabase } from '../supabase';
-import { Message, MessageRole } from '../types';
-import { DatabaseError } from '../utils/errors';
+import { supabase } from '../supabase.js';
+import { Message, MessageRole } from '../types.js';
+import { DatabaseError } from '../utils/errors.js';
 
 export interface CreateMessageInput {
   conversation_id: string;

@@ -1,6 +1,6 @@
-import { supabase } from '../supabase';
-import { Conversation } from '../types';
-import { DatabaseError } from '../utils/errors';
+import { supabase } from '../supabase.js';
+import { Conversation } from '../types.js';
+import { DatabaseError } from '../utils/errors.js';
 
 export async function findConversationBySessionId(
   sessionId: string

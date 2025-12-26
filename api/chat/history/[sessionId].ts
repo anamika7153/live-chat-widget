@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { getConversationHistory } from '../../../lib/services/chat-service';
-import { formatErrorResponse, ValidationError } from '../../../lib/utils/errors';
+import { getConversationHistory } from '../../../lib/services/chat-service.js';
+import { formatErrorResponse, ValidationError } from '../../../lib/utils/errors.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Set CORS headers

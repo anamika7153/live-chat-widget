@@ -1,7 +1,7 @@
 import OpenAI from 'openai';
-import { config } from '../config';
-import { ChatMessage, LLMCompletionResult } from '../types';
-import { LLMError, RateLimitError, TimeoutError } from '../utils/errors';
+import { config } from '../config.js';
+import { ChatMessage, LLMCompletionResult } from '../types.js';
+import { LLMError, RateLimitError, TimeoutError } from '../utils/errors.js';
 
 let openaiInstance: OpenAI | null = null;
 
