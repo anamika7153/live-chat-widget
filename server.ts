@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config({ path: '.env.local' });
 import express from 'express';
 import cors from 'cors';
-import { processMessage, getConversationHistory } from './lib/services/chat-service';
+import { processMessage, getConversationHistory, clearConversation } from './lib/services/chat-service';
 import { supabase } from './lib/supabase';
 import { formatErrorResponse, ValidationError } from './lib/utils/errors';
 
@@ -64,6 +64,24 @@ app.get('/api/chat/history/:sessionId', async (req, res) => {
     res.json(result);
   } catch (error) {
     console.error('Chat history error:', error);
+    const { statusCode, body } = formatErrorResponse(error);
+    res.status(statusCode).json(body);
+  }
+});
+
+// Clear chat endpoint
+app.delete('/api/chat/clear/:sessionId', async (req, res) => {
+  try {
+    const { sessionId } = req.params;
+
+    if (!sessionId) {
+      throw new ValidationError('Session ID is required');
+    }
+
+    await clearConversation(sessionId);
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Clear chat error:', error);
     const { statusCode, body } = formatErrorResponse(error);
     res.status(statusCode).json(body);
   }

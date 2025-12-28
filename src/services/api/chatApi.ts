@@ -57,4 +57,22 @@ export async function getChatHistory(sessionId: string): Promise<ChatHistoryResp
   return data;
 }
 
+export async function clearChatSession(sessionId: string): Promise<void> {
+  const response = await fetch(`${API_URL}/chat/clear/${sessionId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    const data = await response.json();
+    throw new ChatApiError(
+      data.error?.message || 'Failed to clear chat',
+      data.error?.code || 'UNKNOWN_ERROR',
+      response.status
+    );
+  }
+}
+
 export { ChatApiError };

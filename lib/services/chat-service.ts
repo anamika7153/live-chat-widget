@@ -5,6 +5,7 @@ import { ValidationError } from '../utils/errors.js';
 import {
   findOrCreateConversation,
   updateConversationTimestamp,
+  deleteConversationBySessionId,
 } from '../repositories/conversation-repository.js';
 import {
   findMessagesByConversationId,
@@ -105,4 +106,11 @@ export async function getConversationHistory(sessionId: string) {
         timestamp: m.created_at,
       })),
   };
+}
+
+export async function clearConversation(sessionId: string): Promise<void> {
+  // Delete the conversation - messages are automatically deleted via CASCADE
+  await deleteConversationBySessionId(sessionId);
+
+  console.log('Conversation cleared:', { sessionId });
 }

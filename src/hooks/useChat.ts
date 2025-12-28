@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { v4 as uuidv4 } from 'uuid';
 import { Message, MessageRole } from '../types/chat.types';
-import { sendMessage, getChatHistory } from '../services/api/chatApi';
+import { sendMessage, clearChatSession } from '../services/api/chatApi';
 import { useSession } from './useSession';
 
 const MESSAGES_KEY = 'chat_messages';
@@ -105,11 +105,17 @@ export function useChat() {
     setError(null);
   }, []);
 
-  const clearChat = useCallback(() => {
-    setMessages([]);
+  const clearChat = useCallback(async () => {
+    // Clear from database if session exists
     if (sessionId) {
+      try {
+        await clearChatSession(sessionId);
+      } catch (err) {
+        console.error('Failed to clear chat from server:', err);
+      }
       localStorage.removeItem(`${MESSAGES_KEY}_${sessionId}`);
     }
+    setMessages([]);
   }, [sessionId]);
 
   return {

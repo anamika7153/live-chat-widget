@@ -59,3 +59,17 @@ export async function updateConversationTimestamp(id: string): Promise<void> {
     // Non-critical, don't throw
   }
 }
+
+export async function deleteConversationBySessionId(
+  sessionId: string
+): Promise<void> {
+  const { error } = await supabase
+    .from('conversations')
+    .delete()
+    .eq('session_id', sessionId);
+
+  if (error) {
+    console.error('Failed to delete conversation:', error);
+    throw new DatabaseError('Failed to delete conversation');
+  }
+}

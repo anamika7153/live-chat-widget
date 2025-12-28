@@ -56,3 +56,17 @@ export async function createMessage(input: CreateMessageInput): Promise<Message>
 
   return data;
 }
+
+export async function deleteMessagesByConversationId(
+  conversationId: string
+): Promise<void> {
+  const { error } = await supabase
+    .from('messages')
+    .delete()
+    .eq('conversation_id', conversationId);
+
+  if (error) {
+    console.error('Failed to delete messages:', error);
+    throw new DatabaseError('Failed to delete messages');
+  }
+}

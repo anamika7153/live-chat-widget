@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useChat } from '../../hooks/useChat';
+import { useSession } from '../../hooks/useSession';
 import ChatHeader from './ChatHeader';
 import MessageList from './MessageList';
 import InputBox from './InputBox';
@@ -7,7 +8,13 @@ import ErrorDisplay from './ErrorDisplay';
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  const { messages, isLoading, isTyping, error, send, clearError } = useChat();
+  const { messages, isLoading, isTyping, error, send, clearError, clearChat } = useChat();
+  const { clearSession } = useSession();
+
+  const handleClearChat = async () => {
+    await clearChat();
+    clearSession();
+  };
 
   return (
     <div className="fixed bottom-4 right-4 z-50">
@@ -18,7 +25,7 @@ export default function ChatWidget() {
           role="dialog"
           aria-label="Chat window"
         >
-          <ChatHeader onClose={() => setIsOpen(false)} />
+          <ChatHeader onClose={() => setIsOpen(false)} onClear={handleClearChat} />
           <MessageList messages={messages} isTyping={isTyping} />
           {error && <ErrorDisplay error={error} onDismiss={clearError} />}
           <InputBox onSend={send} isDisabled={isLoading} />
